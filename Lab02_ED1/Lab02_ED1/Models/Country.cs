@@ -18,14 +18,14 @@ namespace Lab02_ED1.Models
         [Key]
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Requerido")]
         [Display(Name = "Nombre")]
-        public string Name { get; set; }
+        public string nombre { get; set; }
 
         /// <summary>
         /// Grupo en Campeonato
         /// </summary>
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Requerido")]
         [Display(Name = "Grupo")]
-        public char Group { get; set; }
+        public char Grupo { get; set; }
 
         /// <summary>
         /// Comparador por Nombre
@@ -34,7 +34,7 @@ namespace Lab02_ED1.Models
         /// <returns>Valor de Comparacion</returns>
         public int CompareByName(Country country)
         {
-            return country.Name.CompareTo(Name);
+            return country.nombre.CompareTo(nombre);
         }
 
         /// <summary>
@@ -44,7 +44,7 @@ namespace Lab02_ED1.Models
         /// <returns>Valor de Comparacion</returns>
         public int CompareByGroup(Country country)
         {
-            return country.Group.CompareTo(Group);
+            return country.Grupo.CompareTo(Grupo);
         }
 
         /// <summary>
