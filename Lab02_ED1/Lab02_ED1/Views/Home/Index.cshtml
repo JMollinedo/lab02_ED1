@@ -1,18 +1,31 @@
-﻿<div class="inner cover">
-    <h1 class="cover-heading">Bienvenido al sitio oficial de la Copa Mundial de la FIFA 2018</h1>
-    <p class="lead">
-        Aquí podrás ver los equipos participantes en el Mundial de Rusia 2018. Esta aplicación Web,
-        fue realizada con una estructura de Arbol Binario. Ahora selecciona como quieres trabajar el Arbol:
-    </p>
-    <p class="lead">
-        <a href="#" class="btn btn-lg btn-default">Entero (int)</a>
-        <a href="#" class="btn btn-lg btn-default">Cadena (string) </a>
-        <a class="btn btn-lg btn-default" @Html.ActionLink("País (objeto)", "Upload", "Country")</a>
-    </p>
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>FIFA WORLD CUP 2018</h1>
+    <p class="lead">Aquí podrás ver los equipos participantes en el Mundial de Rusia 2018. Esta aplicación Web,
+        fue realizada con una estructura de Arbol Binario. Ahora selecciona como quieres trabajar el Arbol: HTML, CSS and JavaScript.</p>
 </div>
 
-<div class="mastfoot">
-    <div class="inner">
-        <p>Pablo Grajeda (1006517)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Javier Mollinedo(1062217)&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; Est. 2018</p>
+<div class="row">
+    <div class="col-md-4">
+        <h2>Objeto (País)</h2>
+        <p>
+            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
+            enables a clean separation of concerns and gives you full control over markup
+            for enjoyable, agile development.
+        </p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>String (Cadena)</h2>
+        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
+    </div>
+    <div class="col-md-4">
+        <h2>Int (Entero)</h2>
+        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
+        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
     </div>
 </div>

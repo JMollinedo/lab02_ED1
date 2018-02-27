@@ -11,11 +11,11 @@ namespace Lab02_ED1.Models
         /*[Key]
          *public int Id { get; set; }
          */
-        
+
         /// <summary>
         /// Nombre de Pais
         /// </summary>
-        [Key]
+
         [Required(AllowEmptyStrings = false, ErrorMessage = "Campo Requerido")]
         [Display(Name = "Nombre")]
         public string nombre { get; set; }
@@ -66,7 +66,7 @@ namespace Lab02_ED1.Models
                 Country country = obj as Country;
                 return CompareByName(country);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 throw ex;
             }

@@ -1,0 +1,48 @@
+﻿@model IEnumerable<Lab02_ED1.Models.Country>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Upload Json File", "Upload")
+</p>
+<p ALIGN="right">
+    @Html.ActionLink("Pre-Orden", "Orden", new { order = "PreOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("In-Orden", "Orden", new { order = "InOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Post-orden", "Orden", new { order = "PostOrder" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.nombre)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Grupo)
+        </th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.nombre)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Grupo)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+            </tr>
+        }
+    }
+</table>
+
+

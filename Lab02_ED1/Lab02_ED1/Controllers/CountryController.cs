@@ -1,8 +1,8 @@
-﻿using Lab02_ED1.DataBase;
+﻿using ArbolBinarioBu;
+using Lab02_ED1.DataBase;
 using Lab02_ED1.Models;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -11,10 +11,20 @@ namespace Lab02_ED1.Controllers
 {
     public class CountryController : Controller
     {
+        DataAdmin Datos = DataAdmin.getInstance;
+
         // GET: Country
         public ActionResult Index()
         {
-            return View();
+            return View(Datos.ListaPaises);
+        }
+        public ActionResult IndexInt()
+        {
+            return View(Datos.ListaInt);
+        }
+        public ActionResult IndexString()
+        {
+            return View(Datos.ListaString);
         }
 
         // GET: Country/Details/5
@@ -90,6 +100,7 @@ namespace Lab02_ED1.Controllers
         }
 
 
+        //---------------------------------------Upload País----------------------------------
         public ActionResult Upload()
         {
             return View();
@@ -105,14 +116,15 @@ namespace Lab02_ED1.Controllers
                 if (upload != null && upload.ContentLength > 0)
                 {
 
-                    if (upload.FileName.EndsWith(".csv"))
+                    if (upload.FileName.EndsWith(".json"))
                     {
                         JsonReader<Country> LectorJson = new JsonReader<Country>();
-                        List<Country> CountryList = LectorJson.Datos(upload.FileName);
+                        Nodo<Country> RaizArbol = LectorJson.Datos(upload.InputStream);
+                        Datos.ArbolBinario.root = RaizArbol;
+                        Datos.ListaPaises = Datos.ArbolBinario.Orders("PreOrder");
 
 
-
-                        return View();
+                        return RedirectToAction("Index");
                     }
                     else
                     {
@@ -127,5 +139,58 @@ namespace Lab02_ED1.Controllers
             }
             return View();
         }
+
+        public ActionResult Orden(string Order)
+        {
+            Datos.ListaPaises = Datos.ArbolBinario.Orders(Order);
+           return RedirectToAction("Index");
+        }
+
+        //---------------------------------------Upload Int----------------------------------
+        public ActionResult UploadInt()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadInt(HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+
+                    if (upload.FileName.EndsWith(".json"))
+                    {
+                        JsonReader<int> LectorJson = new JsonReader<int>();
+                        Nodo<int> RaizArbol = LectorJson.DatosI(upload.InputStream);
+                        Datos.iArbolBinario.root = RaizArbol;
+                        Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
+
+                        return RedirectToAction("IndexInt");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("File", "This file format is not supported");
+                        return View();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "Please Upload Your file");
+                }
+            }
+            return View();
+        }
+
+        public ActionResult OrdenInt(string Order)
+        {
+            Datos.ListaInt = Datos.iArbolBinario.Orders(Order);
+            return RedirectToAction("IndexInt");
+        }
+        //---------------------------------------Upload String----------------------------------
     }
 }

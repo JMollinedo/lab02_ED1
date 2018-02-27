@@ -1,0 +1,40 @@
+﻿@model IEnumerable<int>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Upload Json File", "UploadInt")
+</p>
+<p ALIGN="right">
+    @Html.ActionLink("Pre-Orden", "OrdenInt", new { order = "PreOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("In-Orden", "OrdenInt", new { order = "InOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Post-orden", "OrdenInt", new { order = "PostOrder" })
+</p>
+<table class="table">
+    <tr>
+        <th>
+            Número
+        </th>
+        <th></th>
+    </tr>
+    @if (Model != null)
+    {
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item)
+                </td>
+                @*<td>
+                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+                    </td>*@
+            </tr>
+        }
+    }
+</table>

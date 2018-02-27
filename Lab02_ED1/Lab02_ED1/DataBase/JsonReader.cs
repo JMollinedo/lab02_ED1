@@ -4,6 +4,8 @@ using System.Linq;
 using System.Web;
 using System.IO;
 using Newtonsoft.Json;
+using Lab02_ED1.Models;
+using ArbolBinarioBu;
 
 namespace Lab02_ED1.DataBase
 {
@@ -14,18 +16,35 @@ namespace Lab02_ED1.DataBase
         /// </summary>
         /// <param name="rutaOrigen">Ruta de Origen de Archivo</param>
         /// <returns></returns>
-        public List<T> Datos(string rutaOrigen)
+        public Nodo<Country> Datos(Stream rutaOrigen)
         {
             try
             {
-                List<T> datos;
+                Nodo<Country> datos;
                 StreamReader lector = new StreamReader(rutaOrigen);
                 string temp = lector.ReadToEnd();
-                datos = JsonConvert.DeserializeObject<List<T>>(temp);
+                datos = JsonConvert.DeserializeObject<Nodo<Country>>(temp);
                 lector.Close();
                 return datos;
             }
             catch(Exception ex)
+            {
+                throw ex;
+            }
+        }
+
+        public Nodo<int> DatosI(Stream rutaOrigen)
+        {
+            try
+            {
+                Nodo<int> datos;
+                StreamReader lector = new StreamReader(rutaOrigen);
+                string temp = lector.ReadToEnd();
+                datos = JsonConvert.DeserializeObject<Nodo<int>>(temp);
+                lector.Close();
+                return datos;
+            }
+            catch (Exception ex)
             {
                 throw ex;
             }
