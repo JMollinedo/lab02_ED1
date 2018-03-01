@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Lab02_ED1.Models.Country>
+﻿@model IEnumerable<string>
 
 @{
     ViewBag.Title = "Index";
@@ -7,20 +7,17 @@
 <h2>Index</h2>
 
 <p>
-    @Html.ActionLink("Upload Json File", "Upload")
+    @Html.ActionLink("Upload Json File", "UploadString")
 </p>
 <p ALIGN="right">
-    @Html.ActionLink("Pre-Orden", "Orden", new { order = "PreOrder" })&nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("In-Orden", "Orden", new { order = "InOrder" })&nbsp;&nbsp;&nbsp;
-    @Html.ActionLink("Post-orden", "Orden", new { order = "PostOrder" })
+    @Html.ActionLink("Pre-Orden", "OrdenString", new { order = "PreOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("In-Orden", "OrdenString", new { order = "InOrder" })&nbsp;&nbsp;&nbsp;
+    @Html.ActionLink("Post-orden", "OrdenString", new { order = "PostOrder" })
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.nombre)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Grupo)
+            Cadena
         </th>
         <th></th>
     </tr>
@@ -30,19 +27,16 @@
         {
             <tr>
                 <td>
-                    @Html.DisplayFor(modelItem => item.nombre)
+                    @Html.DisplayFor(modelItem => item)
                 </td>
                 <td>
-                    @Html.DisplayFor(modelItem => item.Grupo)
+                    @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+                    @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
                 </td>
-                @*<td>
-                        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
-                        @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-                    </td>*@
             </tr>
         }
     }
 </table>
+
 
 

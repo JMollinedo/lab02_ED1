@@ -4,16 +4,22 @@
     ViewBag.Title = "Index";
 }
 
-<h2>Index</h2>
+<h2>Países</h2>
 
 <p>
     @Html.ActionLink("Upload Json File", "Upload")
 </p>
+
 <p ALIGN="right">
     @Html.ActionLink("Pre-Orden", "Orden", new { order = "PreOrder" })&nbsp;&nbsp;&nbsp;
     @Html.ActionLink("In-Orden", "Orden", new { order = "InOrder" })&nbsp;&nbsp;&nbsp;
     @Html.ActionLink("Post-orden", "Orden", new { order = "PostOrder" })
 </p>
+
+<p ALIGN="left">
+    @Html.ActionLink("Agregar País", "Create")
+</p>
+
 <table class="table">
     <tr>
         <th>
@@ -35,11 +41,10 @@
         <td>
             @Html.DisplayFor(modelItem => item.Grupo)
         </td>
-        @*<td>
-        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
-        @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+        <td>
+        @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |        
         @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
-    </td>*@
+    </td>
     </tr>
     }
 }

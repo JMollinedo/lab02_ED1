@@ -192,5 +192,49 @@ namespace Lab02_ED1.Controllers
             return RedirectToAction("IndexInt");
         }
         //---------------------------------------Upload String----------------------------------
+        public ActionResult UploadString()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadString(HttpPostedFileBase upload)
+        {
+            if (ModelState.IsValid)
+            {
+
+                if (upload != null && upload.ContentLength > 0)
+                {
+
+                    if (upload.FileName.EndsWith(".json"))
+                    {
+                        JsonReader<string> LectorJson = new JsonReader<string>();
+                        Nodo<string> RaizArbol = LectorJson.DatosS(upload.InputStream);
+                        Datos.sArbolBinario.root = RaizArbol;
+                        Datos.ListaString = Datos.sArbolBinario.Orders("PreOrder");
+
+
+                        return RedirectToAction("IndexString");
+                    }
+                    else
+                    {
+                        ModelState.AddModelError("File", "This file format is not supported");
+                        return View();
+                    }
+                }
+                else
+                {
+                    ModelState.AddModelError("File", "Please Upload Your file");
+                }
+            }
+            return View();
+        }
+
+        public ActionResult OrdenString(string Order)
+        {
+            Datos.ListaString = Datos.sArbolBinario.Orders(Order);
+            return RedirectToAction("IndexString");
+        }
     }
 }

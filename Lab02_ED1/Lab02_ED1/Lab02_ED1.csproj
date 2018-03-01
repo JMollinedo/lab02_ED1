@@ -173,6 +173,8 @@
     <Content Include="Views\Country\IndexInt.cshtml" />
     <Content Include="Views\Country\IndexString.cshtml" />
     <Content Include="Views\Country\UploadInt.cshtml" />
+    <Content Include="Views\Country\UploadString.cshtml" />
+    <Content Include="Views\Country\Create.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

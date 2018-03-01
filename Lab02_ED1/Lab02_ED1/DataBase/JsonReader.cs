@@ -49,5 +49,22 @@ namespace Lab02_ED1.DataBase
                 throw ex;
             }
         }
+
+        public Nodo<string> DatosS(Stream rutaOrigen)
+        {
+            try
+            {
+                Nodo<string> datos;
+                StreamReader lector = new StreamReader(rutaOrigen);
+                string temp = lector.ReadToEnd();
+                datos = JsonConvert.DeserializeObject<Nodo<string>>(temp);
+                lector.Close();
+                return datos;
+            }
+            catch (Exception ex)
+            {
+                throw ex;
+            }
+        }
     }
 }
