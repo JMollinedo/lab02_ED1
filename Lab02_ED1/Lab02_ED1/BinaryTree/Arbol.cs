@@ -28,17 +28,17 @@ namespace ArbolBinarioBu
         /// <summary>
         /// Inserta un Nuevo Nodo en Arbol
         /// </summary>
-        /// <param name="value">Valor Nodo Nuevo</param>
-        public void Insertar(T value)
+        /// <param name="valor">Valor Nodo Nuevo</param>
+        public void Insertar(T valor)
         {
-            Nodo<T> newnode = new Nodo<T>(value, null, null, 0);
+            Nodo<T> nuevo = new Nodo<T>(valor, null, null);
             if (root == null)
             {
-                root = newnode;
+                root = nuevo;
             }
             else
             {
-                InsertarHijo(newnode, root);
+                InsertarHijo(nuevo, root);
             }
         }
 
@@ -51,11 +51,10 @@ namespace ArbolBinarioBu
         {
             if (padre != null)
             {
-                if (nuevo.valor.CompareTo(padre.valor) <= 0)
+                if (nuevo.valor.CompareTo(padre.valor) < 0)
                 {
                     if (padre.izquierdo == null)
                     {
-                        nuevo.nivel = padre.nivel + 1;
                         padre.izquierdo = nuevo;
                     }
                     else
@@ -63,31 +62,25 @@ namespace ArbolBinarioBu
                         InsertarHijo(nuevo, padre.izquierdo);
                     }
                 }
-                else
+                else if (nuevo.valor.CompareTo(padre.valor) > 0)
                 {
-                    if (nuevo.valor.CompareTo(padre.valor) > 0)
+                    if (padre.derecho == null)
                     {
-                        if (padre.derecho == null)
-                        {
-                            nuevo.nivel = padre.nivel + 1;
-                            padre.derecho = nuevo;
-                        }
-                        else
-                        {
-                            InsertarHijo(nuevo, padre.derecho);
-                        }
+                        padre.derecho = nuevo;
+                    }
+                    else
+                    {
+                        InsertarHijo(nuevo, padre.derecho);
                     }
                 }
+                else
+                {
+                    throw new Exception("Valor ya Ingresado");
+                }
+                
             }
         }
 
-        /* 
-         * - Añadir la forma en la que cambia la propiedad Nivel en los 
-         *   nodos del arbol al ejeutar la eliminacion de un nodo
-         * - Esta Propiedad se utiliza para determinar la altura del Arbol
-         * - Si hay una mejor implementacion para determinar la altura del
-         *   Arbol, modificar el metodo y la Propiedad
-         */
         /// <summary>
         /// Eliminar la primera apracición de un valor en el Arbol
         /// </summary>
@@ -97,18 +90,18 @@ namespace ArbolBinarioBu
         {
             Nodo<T> auxiliar = root;
             Nodo<T> padre = root;
-            bool esHijoIz = true;
+            bool esHijoIzquierdo = true;
             while (auxiliar.valor.CompareTo(valor) != 0)
             {
                 padre = auxiliar;
                 if (valor.CompareTo(auxiliar.valor) <= 0)
                 {
-                    esHijoIz = true;
+                    esHijoIzquierdo = true;
                     auxiliar = auxiliar.izquierdo;
                 }
                 else
                 {
-                    esHijoIz = false;
+                    esHijoIzquierdo = false;
                     auxiliar = auxiliar.derecho;
                 }
                 if (auxiliar == null)
@@ -123,7 +116,7 @@ namespace ArbolBinarioBu
                 {
                     root = null;
                 }
-                else if (esHijoIz)
+                else if (esHijoIzquierdo)
                 {
                     padre.izquierdo = null;
                 }
@@ -138,7 +131,7 @@ namespace ArbolBinarioBu
                 {
                     root = auxiliar.izquierdo;
                 }
-                else if (esHijoIz)
+                else if (esHijoIzquierdo)
                 {
                     padre.izquierdo = auxiliar.izquierdo;
                 }
@@ -153,7 +146,7 @@ namespace ArbolBinarioBu
                 {
                     root = auxiliar.derecho;
                 }
-                else if (esHijoIz)
+                else if (esHijoIzquierdo)
                 {
                     padre.izquierdo = auxiliar.derecho;
                 }
@@ -169,7 +162,7 @@ namespace ArbolBinarioBu
                 {
                     root = reemplazo;
                 }
-                else if (esHijoIz)
+                else if (esHijoIzquierdo)
                 {
                     padre.izquierdo = reemplazo;
                 }
@@ -186,23 +179,23 @@ namespace ArbolBinarioBu
         /// <summary>
         /// Elimina un Nodo mediante sustitucion
         /// </summary>
-        /// <param name="Nodoelmiminar">Nodo a Eliminar </param>
+        /// <param name="NodoEliminar">Nodo a Eliminar </param>
         /// <returns>Nodo de Reemplazo</returns>
-        private Nodo<T> Reemplazar(Nodo<T> Nodoelmiminar)
+        private Nodo<T> Reemplazar(Nodo<T> NodoEliminar)
         {
-            Nodo<T> reemplazopadre = Nodoelmiminar;
-            Nodo<T> reemplazo = Nodoelmiminar;
-            Nodo<T> auxiliar = Nodoelmiminar.derecho;
+            Nodo<T> remplazoPadre = NodoEliminar;
+            Nodo<T> reemplazo = NodoEliminar;
+            Nodo<T> auxiliar = NodoEliminar.derecho;
             while (auxiliar != null)
             {
-                reemplazopadre = reemplazo;
+                remplazoPadre = reemplazo;
                 reemplazo = auxiliar;
                 auxiliar = auxiliar.izquierdo;
             }
-            if (reemplazo != Nodoelmiminar.derecho)
+            if (reemplazo != NodoEliminar.derecho)
             {
-                reemplazopadre.izquierdo = reemplazo.derecho;
-                reemplazo.derecho = Nodoelmiminar.derecho;
+                remplazoPadre.izquierdo = reemplazo.derecho;
+                reemplazo.derecho = NodoEliminar.derecho;
             }
             return reemplazo;
         }
@@ -241,83 +234,6 @@ namespace ArbolBinarioBu
         {
             return root == null;
         }
-        #region Eliminaré esto
-        /*
-        /// <summary>
-        /// Recorre el arbol siguiendo el orden infijo
-        /// </summary>
-        /// <returns>Contenido del arbol como una cadena de caracteres</returns>
-        public string Infijo()
-        {
-            string contenido = string.Empty;
-            Infijo(root, ref contenido);
-            return contenido;
-        }
-
-        /// <summary>
-        /// Funcion recursiva que recorre el arbol en orden infijo
-        /// </summary>
-        /// <param name="raiz">Nodo Raiz</param>
-        /// <param name="contenido">Cadena de caracteres con el contenido del arbol</param>
-        private void Infijo(Nodo<T> raiz, ref string contenido)
-        {
-            if (raiz != null)
-            {
-                Infijo(raiz.izquierdo, ref contenido);
-                contenido += raiz.valor.ToString() + "\n";
-                Infijo(raiz.derecho, ref contenido);
-            }
-        }
-
-        /// <summary>
-        /// Recorre el arbol siguendo el orden postfijo
-        /// </summary>
-        /// <returns>Contenido del arbol como una cadena de caracteres</returns>
-        public string Postfijo()
-        {
-            string contenido = string.Empty;
-            Postfijo(root, ref contenido);
-            return contenido;
-        }
-
-        /// <summary>
-        /// Funcion recursiva que recorre el arbol en orden postfijo
-        /// </summary>
-        /// <param name="raiz">Nodo Raiz</param>
-        /// <param name="contenido">Cadena de caracteres con el contenido del arbol</param>
-        private void Postfijo(Nodo<T> raiz, ref string contenido)
-        {
-            if (raiz != null)
-            {
-                Postfijo(raiz.izquierdo, ref contenido);
-                Postfijo(raiz.derecho, ref contenido);
-                contenido += raiz.valor.ToString() + "\n";
-            }
-        }
-
-        /// <summary>
-        /// Recorre el arbol siguiendo el orden prefijo
-        /// </summary>
-        /// <returns>Contenido del arbol como una cadena de caracteres</returns>
-        public string Prefijo()
-        {
-            string contenido = string.Empty;
-
-            return contenido;
-        }
-
-        /// <summary>
-        /// Funcion recursiva que recore el arbol en orden prefijo
-        /// </summary>
-        /// <param name="raiz">Nodo Raiz</param>
-        /// <param name="contenido">Cadena de caracteres con el contenido del arbol</param>
-        private void Prefijo(Nodo<T> raiz, ref string contenido)
-        {
-            contenido += raiz.valor.ToString() + "\n";
-            Prefijo(raiz.izquierdo, ref contenido);
-            Prefijo(raiz.derecho, ref contenido);
-        }*/
-        #endregion
 
         private void PreOrder(Nodo<T> Aux, ref List<T> Elements)
         {
@@ -326,7 +242,6 @@ namespace ArbolBinarioBu
                 Elements.Add(Aux.valor);
                 PreOrder(Aux.izquierdo, ref Elements);
                 PreOrder(Aux.derecho, ref Elements);
-
             }
         }
         private void InOrder(Nodo<T> Aux, ref List<T> Elements)
@@ -336,7 +251,6 @@ namespace ArbolBinarioBu
                 InOrder(Aux.izquierdo, ref Elements);
                 Elements.Add(Aux.valor);
                 InOrder(Aux.derecho, ref Elements);
-
             }
         }
         private void PostOrder(Nodo<T> Aux, ref List<T> Elements)
@@ -346,7 +260,6 @@ namespace ArbolBinarioBu
                 PostOrder(Aux.izquierdo, ref Elements);
                 PostOrder(Aux.derecho, ref Elements);
                 Elements.Add(Aux.valor);
-
             }
         }
 
@@ -364,14 +277,6 @@ namespace ArbolBinarioBu
                 case "PostOrder":
                     PostOrder(root, ref Elements);
                     break;
-                    /*case "LeafNodes":
-                        GetLeafNodes(Root, ref Elements);
-                        break;
-                    case "OnlyChild":
-                        OnlyChild(Root, ref Elements);
-                        break;*/
-
-
             }
             return Elements;
         }
@@ -394,16 +299,7 @@ namespace ArbolBinarioBu
         /// <returns>Altura de Arbol con Nodo Raiz</returns>
         private int setAltura(Nodo<T> actual)
         {
-            if (actual != null)
-            {
-                return Math.Max
-                    (actual.nivel,
-                    Math.Max(setAltura(actual.izquierdo), setAltura(actual.derecho)));
-            }
-            else
-            {
-                return 0;
-            }
+            return 0;
         }
     }
 }
