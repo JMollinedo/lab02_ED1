@@ -42,6 +42,7 @@ namespace ArbolBinarioBu
             }
         }
 
+        // Devuelve una exepción si el valor ya existe en el arbol
         /// <summary>
         /// Metodo Recursivo de Insercion
         /// </summary>
@@ -77,7 +78,6 @@ namespace ArbolBinarioBu
                 {
                     throw new Exception("Valor ya Ingresado");
                 }
-                
             }
         }
 
@@ -94,7 +94,7 @@ namespace ArbolBinarioBu
             while (auxiliar.valor.CompareTo(valor) != 0)
             {
                 padre = auxiliar;
-                if (valor.CompareTo(auxiliar.valor) <= 0)
+                if (valor.CompareTo(auxiliar.valor) < 0)
                 {
                     esHijoIzquierdo = true;
                     auxiliar = auxiliar.izquierdo;
@@ -109,8 +109,7 @@ namespace ArbolBinarioBu
                     return null;
                 }
             }// Fin ciclo inicial
-
-            if (auxiliar.izquierdo == null && auxiliar.derecho == null)
+            if (auxiliar.EsHoja)
             {
                 if (auxiliar == root)
                 {
@@ -127,32 +126,34 @@ namespace ArbolBinarioBu
             }
             else if (auxiliar.derecho == null)
             {
+                Nodo<T> temp = auxiliar.izquierdo;
                 if (auxiliar == root)
                 {
-                    root = auxiliar.izquierdo;
+                    root = temp;
                 }
                 else if (esHijoIzquierdo)
                 {
-                    padre.izquierdo = auxiliar.izquierdo;
+                    padre.izquierdo = temp;
                 }
                 else
                 {
-                    padre.derecho = auxiliar.izquierdo;
+                    padre.derecho = temp;
                 }
             }
             else if (auxiliar.izquierdo == null)
             {
+                Nodo<T> temp = auxiliar.derecho;
                 if (auxiliar == root)
                 {
-                    root = auxiliar.derecho;
+                    root = temp;
                 }
                 else if (esHijoIzquierdo)
                 {
-                    padre.izquierdo = auxiliar.derecho;
+                    padre.izquierdo = temp;
                 }
                 else
                 {
-                    padre.derecho = auxiliar.derecho;
+                    padre.derecho = temp;
                 }
             }
             else
@@ -179,23 +180,23 @@ namespace ArbolBinarioBu
         /// <summary>
         /// Elimina un Nodo mediante sustitucion
         /// </summary>
-        /// <param name="NodoEliminar">Nodo a Eliminar </param>
+        /// <param name="NodoAEliminar">Nodo a Eliminar </param>
         /// <returns>Nodo de Reemplazo</returns>
-        private Nodo<T> Reemplazar(Nodo<T> NodoEliminar)
+        private Nodo<T> Reemplazar(Nodo<T> NodoAEliminar)
         {
-            Nodo<T> remplazoPadre = NodoEliminar;
-            Nodo<T> reemplazo = NodoEliminar;
-            Nodo<T> auxiliar = NodoEliminar.derecho;
+            Nodo<T> remplazoPadre = NodoAEliminar;
+            Nodo<T> reemplazo = NodoAEliminar;
+            Nodo<T> auxiliar = NodoAEliminar.derecho;
             while (auxiliar != null)
             {
                 remplazoPadre = reemplazo;
                 reemplazo = auxiliar;
                 auxiliar = auxiliar.izquierdo;
             }
-            if (reemplazo != NodoEliminar.derecho)
+            if (reemplazo != NodoAEliminar.derecho)
             {
                 remplazoPadre.izquierdo = reemplazo.derecho;
-                reemplazo.derecho = NodoEliminar.derecho;
+                reemplazo.derecho = NodoAEliminar.derecho;
             }
             return reemplazo;
         }
@@ -205,11 +206,15 @@ namespace ArbolBinarioBu
         /// </summary>
         /// <param name="value">Valor buscado</param>
         /// <returns>Nodo con valor buscado</returns>
-        Nodo<T> Encontrar(T value)
+        public Nodo<T> Encontrar(T value)
         {
             Nodo<T> auxiliar = root;
             while (auxiliar.valor.CompareTo(value) != 0)
             {
+                if (auxiliar == null)
+                {
+                    return null;
+                }
                 if (value.CompareTo(auxiliar.valor) < 0)
                 {
                     auxiliar = auxiliar.izquierdo;
@@ -217,10 +222,6 @@ namespace ArbolBinarioBu
                 else
                 {
                     auxiliar = auxiliar.derecho;
-                }
-                if (auxiliar == null)
-                {
-                    return null;
                 }
             }
             return auxiliar;
@@ -230,11 +231,16 @@ namespace ArbolBinarioBu
         /// Determina si el arbol tiene datos
         /// </summary>
         /// <returns></returns>
-        bool IsEmpty()
+        public bool IsEmpty()
         {
             return root == null;
         }
 
+        /// <summary>
+        /// Metodo Recursivo que recorre el arbol
+        /// </summary>
+        /// <param name="Aux">Nodo Raiz</param>
+        /// <param name="Elements">Lista de Datos en Orden</param>
         private void PreOrder(Nodo<T> Aux, ref List<T> Elements)
         {
             if (Aux != null)
@@ -244,6 +250,11 @@ namespace ArbolBinarioBu
                 PreOrder(Aux.derecho, ref Elements);
             }
         }
+        /// <summary>
+        /// Metodo Recursivo que recorre el arbol
+        /// </summary>
+        /// <param name="Aux">Nodo Raiz</param>
+        /// <param name="Elements">Lista de Datos en Orden</param>
         private void InOrder(Nodo<T> Aux, ref List<T> Elements)
         {
             if (Aux != null)
@@ -253,6 +264,11 @@ namespace ArbolBinarioBu
                 InOrder(Aux.derecho, ref Elements);
             }
         }
+        /// <summary>
+        /// Metodo Recursivo que recorre el arbol
+        /// </summary>
+        /// <param name="Aux">Nodo Raiz</param>
+        /// <param name="Elements">Lista de Datos en Orden</param>
         private void PostOrder(Nodo<T> Aux, ref List<T> Elements)
         {
             if (Aux != null)
@@ -261,6 +277,31 @@ namespace ArbolBinarioBu
                 PostOrder(Aux.derecho, ref Elements);
                 Elements.Add(Aux.valor);
             }
+        }
+
+        /// <summary>
+        /// Recorrido en PreOrden del Arbol
+        /// </summary>
+        /// <param name="Elements">Datos ordenados</param>
+        public void PreOrder(ref List<T> Elements)
+        {
+            PreOrder(root, ref Elements);
+        }
+        /// <summary>
+        /// Recorrido en Orden del Arbol
+        /// </summary>
+        /// <param name="Elements">Datos ordenados</param>
+        public void InOrder(ref List<T> Elements)
+        {
+            InOrder(root, ref Elements);
+        }
+        /// <summary>
+        /// Recorrido en PostOrden del Arbol
+        /// </summary>
+        /// <param name="Elements">Datos ordenados</param>
+        public void PostOrder(ref List<T> Elements)
+        {
+            PostOrder(root, ref Elements);
         }
 
         public List<T> Orders(string Order)
@@ -282,24 +323,117 @@ namespace ArbolBinarioBu
         }
 
         /// <summary>
+        /// Delegado para Realizar Ordenes
+        /// </summary>
+        /// <param name="temp">Nodo Raiz</param>
+        /// <param name="valores">Lista de Datos Ordenados</param>
+        public delegate void Ordenes(ref List<T> valores);
+
+        /// <summary>
+        /// Metodo que extrae los datos del arbol en un orden
+        /// </summary>
+        /// <param name="valores">Datos Ordenados</param> 
+        /// <param name="orden">Orden de Salida</param>
+        public void Orders(ref List<T> valores, Ordenes orden)
+        {
+            valores = new List<T>();
+            orden(ref valores);
+        }
+
+        /// <summary>
+        /// Crea un subarbol del arbol actual
+        /// </summary>
+        /// <param name="valor">Valor de Raiz</param>
+        /// <returns>Subarbol</returns>
+        public Arbol<T> SubArbol(T valor)
+        {
+            Arbol<T> nuevo = new Arbol<T>();
+            Nodo<T> nuevaRaiz = Encontrar(valor);
+            if (nuevaRaiz == null)
+                return null;
+            nuevo.root = nuevaRaiz;
+            return nuevo;
+        }
+
+        /// <summary>
         /// Altura del Arbol
         /// </summary>
         public int Altura
         {
             get
             {
-                return setAltura(root);
+                return setAltura(root, 0);
             }
         }
 
         /// <summary>
-        /// Funcion recursiva que determina la altura de del Arbol
+        /// Funcion recursiva que determina la altura del Arbol
         /// </summary>
         /// <param name="actual">Nodo Raiz</param>
+        /// <paramname="nivelActual">Nivel del nodo raiz</param>
         /// <returns>Altura de Arbol con Nodo Raiz</returns>
-        private int setAltura(Nodo<T> actual)
+        private int setAltura(Nodo<T> actual, int nivelActual)
         {
-            return 0;
+            if (actual == null)
+            {
+                return nivelActual;
+            }
+            int altI = setAltura(actual.izquierdo, nivelActual + 1);
+            int altD = setAltura(actual.derecho, nivelActual + 1);
+            return Math.Max(altI, altD);
+        }
+
+        /// <summary>
+        /// El arbol esta balanceado
+        /// </summary>
+        public bool Balancedo
+        {
+            get
+            {
+                int altI = 0;
+                int altD = 0;
+                if (root.izquierdo != null)
+                    altI = SubArbol(root.izquierdo.valor).Altura;
+                if (root.derecho != null)
+                    altD = SubArbol(root.derecho.valor).Altura;
+                return Math.Abs(altI - altD) <= 1;
+            }
+        }
+
+        /// <summary>
+        /// El arbol esta degenerado
+        /// </summary>
+        public bool Degenerado
+        {
+            get
+            {
+                return setDegenerado(root);
+            }
+        }
+
+        /// <summary>
+        /// Funcion recursiva que determina si el arbol esta degenerado
+        /// </summary>
+        /// <param name="actual">Nodo Raiz</param>
+        /// <returns>Si el arbol esta degenerado</returns>
+        private bool setDegenerado(Nodo<T> actual)
+        {
+            if (actual.Lleno)
+            {
+                return false;
+            }
+            if (actual.izquierdo != null)
+            {
+                return setDegenerado(actual.izquierdo);
+            }
+            else if(actual.derecho != null)
+            {
+                return setDegenerado(actual.derecho);
+            }
+            else
+            {
+                return true;
+            }
         }
     }
 }

@@ -35,25 +35,29 @@ namespace ArbolBinarioBu
         {
             this.derecho = derecho;
             this.izquierdo = izquierdo;
-            this.valor = value;
+            valor = value;
         }
 
         /// <summary>
         /// Determina si el nodo es un Nodo Hoja
         /// </summary>
-        /// <returns></returns>
-        public bool EsHoja()
+        public bool EsHoja
         {
-            return derecho == null && izquierdo == null;
+            get
+            {
+                return derecho == null && izquierdo == null;
+            }
         }
 
         /// <summary>
         /// Determina si un nodo tiene 2 hijos
         /// </summary>
-        /// <returns></returns>
-        public bool Lleno()
+        public bool Lleno
         {
-            return derecho != null && izquierdo != null;
+            get
+            {
+                return derecho != null && izquierdo != null;
+            }
         }
     }
 }
