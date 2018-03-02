@@ -45,7 +45,11 @@ namespace Lab02_ED1.Controllers
         {
             try
             {
-                // TODO: Add insert logic here
+                Country PaisNuevo = new Models.Country();
+                PaisNuevo.nombre = collection["nombre"];
+                PaisNuevo.Grupo = char.Parse(collection["Grupo"]);
+                Datos.ArbolBinario.Insertar(PaisNuevo);
+                Datos.ListaPaises = Datos.ArbolBinario.Orders("PreOrder");
 
                 return RedirectToAction("Index");
             }
