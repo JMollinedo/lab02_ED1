@@ -8,9 +8,8 @@ namespace Lab02_ED1.Models
 {
     public class Country : IComparable
     {
-        /*[Key]
-         *public int Id { get; set; }
-         */
+        [Key]
+        public int ID { get; set; }
 
         /// <summary>
         /// Nombre de Pais
@@ -34,7 +33,7 @@ namespace Lab02_ED1.Models
         /// <returns>Valor de Comparacion</returns>
         public int CompareByName(Country country)
         {
-            return country.nombre.CompareTo(nombre);
+            return nombre.CompareTo(country.nombre);
         }
 
         /// <summary>

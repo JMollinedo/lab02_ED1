@@ -60,9 +60,14 @@ namespace Lab02_ED1.Controllers
         }
 
         // GET: Country/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int? id)
         {
-            return View();
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+           Country PaisBuscado =  Datos.ListaPaises.Find(x => x.ID == id);
+            return View(PaisBuscado);
         }
 
         // POST: Country/Edit/5
@@ -71,20 +76,36 @@ namespace Lab02_ED1.Controllers
         {
             try
             {
-                // TODO: Add update logic here
+                Country PaisEditado = new Country();
+                Country PaisEliminar = Datos.ListaPaises.Find(x => x.ID == id);
+
+
+                PaisEditado.nombre = collection["Nombre"];
+                PaisEditado.Grupo = char.Parse(collection["Grupo"]);
+                PaisEditado.ID = id;
+                Datos.ArbolBinario.Eliminar(PaisEliminar);
+                Datos.ArbolBinario.Insertar(PaisEditado);
+
+                Datos.ListaPaises = Datos.ArbolBinario.Orders("PreOrder");
 
                 return RedirectToAction("Index");
             }
-            catch
+            catch (Exception)
             {
+
                 return View();
             }
+           
+
+            
         }
 
         // GET: Country/Delete/5
         public ActionResult Delete(int id)
         {
-            return View();
+            Country PaisEliminar = Datos.ListaPaises.Find(x => x.ID == id);
+
+            return View(PaisEliminar);
         }
 
         // POST: Country/Delete/5
@@ -93,7 +114,9 @@ namespace Lab02_ED1.Controllers
         {
             try
             {
-                // TODO: Add delete logic here
+                Country PaisEliminar = Datos.ListaPaises.Find(x => x.ID == id);
+                Datos.ArbolBinario.Eliminar(PaisEliminar);
+                Datos.ListaPaises = Datos.ArbolBinario.Orders("PreOrder");
 
                 return RedirectToAction("Index");
             }
@@ -127,6 +150,14 @@ namespace Lab02_ED1.Controllers
                         Datos.ArbolBinario.root = RaizArbol;
                         Datos.ListaPaises = Datos.ArbolBinario.Orders("PreOrder");
 
+                        // Asignar un ID al país para editar o eliminar
+
+                        foreach (var item in Datos.ListaPaises)
+                        {
+                            item.ID = Datos.CountryId;
+                            Datos.CountryId++;
+                        }
+
 
                         return RedirectToAction("Index");
                     }
@@ -150,7 +181,7 @@ namespace Lab02_ED1.Controllers
            return RedirectToAction("Index");
         }
 
-        //---------------------------------------Upload Int----------------------------------
+        //---------------------------------------ENTEROS----------------------------------
         public ActionResult UploadInt()
         {
             return View();
@@ -172,6 +203,7 @@ namespace Lab02_ED1.Controllers
                         Nodo<int> RaizArbol = LectorJson.DatosI(upload.InputStream);
                         Datos.iArbolBinario.root = RaizArbol;
                         Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
 
 
                         return RedirectToAction("IndexInt");
