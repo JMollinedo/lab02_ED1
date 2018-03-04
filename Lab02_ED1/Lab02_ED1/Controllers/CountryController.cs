@@ -7,6 +7,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+
 namespace Lab02_ED1.Controllers
 {
     public class CountryController : Controller
@@ -16,7 +17,6 @@ namespace Lab02_ED1.Controllers
         // GET: Country
         public ActionResult Index()
         {
-            
             return View(Datos.ListaPaises);
         }
         public ActionResult Degenerado()
@@ -35,26 +35,32 @@ namespace Lab02_ED1.Controllers
             }
             else
                 TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
-            return View(Datos.ListaPaises);
+            return RedirectToAction("Index");
         }
-        //public ActionResult Balanceado()
-        //{
-        //    if (Datos.ArbolBinario.root == null)
-        //    {
-        //        TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
-        //    }
-        //    else if (Datos.ArbolBinario.Balancedo)
-        //    {
-        //        TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
-        //    }else
-        //    {
-        //        Nodo<Country> nDesbalanceado = Datos.ArbolBinario.Desbalanceado();
-        //        TempData["msg"] = 
-        //            "<script>alert('Pais: " + nDesbalanceado.valor.nombre +
-        //            "\nGrupo: " + nDesbalanceado.valor.Grupo + "');</script>";
-        //    }
-        //    return View(Datos.ListaPaises);
-        //}
+        public ActionResult Balanceado()
+        {
+            if (Datos.ArbolBinario.root == null)
+            {
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            }
+            else if (Datos.ArbolBinario.Balancedo)
+            {
+                TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
+            }
+            else
+            {
+                Nodo<Country> nDesbalanceado = Datos.ArbolBinario.Desbalanceado();
+                string Mensaje = "'Nodo desvalanceado => Pais: " + nDesbalanceado.valor.nombre +
+                    " Grupo: " + nDesbalanceado.valor.Grupo+"'";
+                Mensaje = "<script>alert(" + Mensaje + ");</script>";
+
+                TempData["msg"] = Mensaje;
+
+                
+
+            }
+            return RedirectToAction("Index");
+        }
 
         public ActionResult IndexInt()
         {
@@ -76,26 +82,28 @@ namespace Lab02_ED1.Controllers
             }
             else
                 TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            return RedirectToAction("IndexInt");
+        }
+        public ActionResult BalanceadoInt()
+        {
+            if (Datos.iArbolBinario.root == null)
+            {
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            }
+            else if (Datos.iArbolBinario.Balancedo)
+            {
+                TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
+            }
+            else
+            {
+                Nodo<int> nDesbalanceado = Datos.iArbolBinario.Desbalanceado();
+                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado.ToString() +"'";
+                Mensaje = "<script>alert(" + Mensaje + ");</script>";
+
+                TempData["msg"] = Mensaje;
+            }
             return View(Datos.ListaInt);
         }
-        //public ActionResult BalanceadoInt()
-        //{
-        //    if (Datos.iArbolBinario.root == null)
-        //    {
-        //        TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
-        //    }
-        //    else if (Datos.iArbolBinario.Balancedo)
-        //    {
-        //        TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
-        //    }
-        //    else
-        //    {
-        //        Nodo<int> nDesbalanceado = Datos.iArbolBinario.Desbalanceado();
-        //        TempData["msg"] =
-        //            "<script>alert('Pais: " + nDesbalanceado.valor.ToString() + "');</script>";
-        //    }
-        //    return View(Datos.ListaInt);
-        //}
 
         public ActionResult IndexString()
         {
@@ -118,26 +126,28 @@ namespace Lab02_ED1.Controllers
                 TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
 
 
+            return RedirectToAction("IndexString");
+        }
+        public ActionResult BalanceadoString()
+        {
+            if (Datos.sArbolBinario.root == null)
+            {
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            }
+            else if (Datos.sArbolBinario.Balancedo)
+            {
+                TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
+            }
+            else
+            {
+                Nodo<string> nDesbalanceado = Datos.sArbolBinario.Desbalanceado();
+                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado + "'";
+                Mensaje = "<script>alert(" + Mensaje + ");</script>";
+
+                TempData["msg"] = Mensaje;
+            }
             return View(Datos.ListaString);
         }
-        //public ActionResult BalanceadoString()
-        //{
-        //    if (Datos.sArbolBinario.root == null)
-        //    {
-        //        TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
-        //    }
-        //    else if (Datos.sArbolBinario.Balancedo)
-        //    {
-        //        TempData["msg"] = "<script>alert('Árbol balanceado');</script>";
-        //    }
-        //    else
-        //    {
-        //        Nodo<string> nDesbalanceado = Datos.sArbolBinario.Desbalanceado();
-        //        TempData["msg"] =
-        //            "<script>alert('Pais: " + nDesbalanceado.valor + "');</script>";
-        //    }
-        //    return View(Datos.ListaString);
-        //}
 
         // GET: Country/Details/5
         public ActionResult Details(int id)

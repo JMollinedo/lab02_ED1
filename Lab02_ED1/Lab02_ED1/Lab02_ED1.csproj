@@ -183,9 +183,6 @@
     <Content Include="Views\Country\CreateString.cshtml" />
     <Content Include="Views\Country\DeleteString.cshtml" />
     <Content Include="Views\Country\EditString.cshtml" />
-    <Content Include="Views\Country\Degenerado.cshtml" />
-    <Content Include="Views\Country\DegeneradoInt.cshtml" />
-    <Content Include="Views\Country\DegeneradoString.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

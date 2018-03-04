@@ -17,7 +17,7 @@
 </p>
 <p ALIGN="left">
     @Html.ActionLink("¿Es Degenerado?", "DegeneradoString")&nbsp;&nbsp;&nbsp;
-    @*@Html.ActionLink("¿Esta Balanceado?", "BalanceadoString")*@
+    @Html.ActionLink("¿Esta Balanceado?", "BalanceadoString")
 </p>
 <table class="table">
     <tr>
@@ -42,6 +42,10 @@
         }
     }
 </table>
+@if (TempData["msg"] != null)
+{
+    @Html.Raw(TempData["msg"])
+}
 
 
 
