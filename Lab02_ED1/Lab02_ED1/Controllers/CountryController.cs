@@ -51,13 +51,9 @@ namespace Lab02_ED1.Controllers
             {
                 Nodo<Country> nDesbalanceado = Datos.ArbolBinario.Desbalanceado();
                 string Mensaje = "'Nodo desvalanceado => Pais: " + nDesbalanceado.valor.nombre +
-                    " Grupo: " + nDesbalanceado.valor.Grupo+"'";
+                    " Grupo: " + nDesbalanceado.valor.Grupo + "'";
                 Mensaje = "<script>alert(" + Mensaje + ");</script>";
-
                 TempData["msg"] = Mensaje;
-
-                
-
             }
             return RedirectToAction("Index");
         }
@@ -97,12 +93,11 @@ namespace Lab02_ED1.Controllers
             else
             {
                 Nodo<int> nDesbalanceado = Datos.iArbolBinario.Desbalanceado();
-                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado.ToString() +"'";
+                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado.valor.ToString() + "'";
                 Mensaje = "<script>alert(" + Mensaje + ");</script>";
-
                 TempData["msg"] = Mensaje;
             }
-            return View(Datos.ListaInt);
+            return RedirectToAction("IndexInt");
         }
 
         public ActionResult IndexString()
@@ -141,12 +136,11 @@ namespace Lab02_ED1.Controllers
             else
             {
                 Nodo<string> nDesbalanceado = Datos.sArbolBinario.Desbalanceado();
-                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado + "'";
+                string Mensaje = "'Nodo desvalanceado => Valor: " + nDesbalanceado.valor.ToString() + "'";
                 Mensaje = "<script>alert(" + Mensaje + ");</script>";
-
                 TempData["msg"] = Mensaje;
             }
-            return View(Datos.ListaString);
+            return RedirectToAction("IndexString");
         }
 
         // GET: Country/Details/5
