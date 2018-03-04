@@ -400,6 +400,43 @@ namespace ArbolBinarioBu
             }
         }
 
+        public Nodo<T> Desbalanceado()
+        {
+            return setDesbalanceado(root);
+        }
+
+        /// <summary>
+        /// Funcion Recursiva que devuelve el nodo de más alto nivel que este desbalanceado
+        /// </summary>
+        /// <param name="actual">Nodo Actual</param>
+        /// <returns>Nodo Desbalanceado</returns>
+        private Nodo<T> setDesbalanceado(Nodo<T> actual)
+        {
+            bool izq = true;
+            bool der = true;
+            if (actual.izquierdo != null)
+                izq = SubArbol(actual.izquierdo.valor).Balancedo;
+            if (actual.derecho != null)
+                der = SubArbol(actual.derecho.valor).Balancedo;
+            if (!izq)
+            {
+                return setDesbalanceado(actual.izquierdo);
+            }
+            else if (!der)
+            {
+                return setDesbalanceado(actual.derecho);
+            }
+            else
+            {
+                if (SubArbol(actual.valor).Balancedo)
+                {
+                    return null;
+                }
+                return actual;
+            }
+        }
+
+
         /// <summary>
         /// El arbol esta degenerado
         /// </summary>
