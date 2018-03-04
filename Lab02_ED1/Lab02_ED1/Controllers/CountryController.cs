@@ -16,14 +16,72 @@ namespace Lab02_ED1.Controllers
         // GET: Country
         public ActionResult Index()
         {
+            
             return View(Datos.ListaPaises);
         }
+        public ActionResult Degenerado()
+        {
+            if (Datos.ArbolBinario.root != null)
+            {
+                if (Datos.ArbolBinario.Degenerado)
+                {
+                    TempData["msg"] = "<script>alert('Árbol es degenerado');</script>";
+                }
+                else
+                {
+                    TempData["msg"] = "<script>alert('Árbol no es degenerado');</script>";
+                }
+
+            }
+            else
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            return View(Datos.ListaPaises);
+        }
+
         public ActionResult IndexInt()
         {
             return View(Datos.ListaInt);
         }
+        public ActionResult DegeneradoInt()
+        {
+            if (Datos.iArbolBinario.root != null)
+            {
+                if (Datos.iArbolBinario.Degenerado)
+                {
+                    TempData["msg"] = "<script>alert('Árbol es degenerado');</script>";
+                }
+                else
+                {
+                    TempData["msg"] = "<script>alert('Árbol no es degenerado');</script>";
+                }
+
+            }
+            else
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+            return View(Datos.ListaInt);
+        }
+
         public ActionResult IndexString()
         {
+            return View(Datos.ListaString);
+        }
+        public ActionResult DegeneradoString()
+        {
+            if (Datos.sArbolBinario.root != null)
+            {
+                if (Datos.sArbolBinario.Degenerado)
+                {
+                    TempData["msg"] = "<script>alert('Árbol es degenerado');</script>";
+                }
+                else
+                {
+                    TempData["msg"] = "<script>alert('Árbol no es degenerado');</script>";
+                }
+            }
+            else
+                TempData["msg"] = "<script>alert('No hay árbol Existente');</script>";
+
+
             return View(Datos.ListaString);
         }
 
@@ -127,7 +185,7 @@ namespace Lab02_ED1.Controllers
         }
 
 
-        //---------------------------------------Upload País----------------------------------
+
         public ActionResult Upload()
         {
             return View();
@@ -227,7 +285,90 @@ namespace Lab02_ED1.Controllers
             Datos.ListaInt = Datos.iArbolBinario.Orders(Order);
             return RedirectToAction("IndexInt");
         }
-        //---------------------------------------Upload String----------------------------------
+
+
+
+        public ActionResult CreateInt()
+        {
+            
+            
+            return View();
+        }
+
+        // POST: Country/Create
+        [HttpPost]
+        public ActionResult CreateInt(FormCollection collection)
+        {
+            try
+            {
+                Datos.iArbolBinario.Insertar(int.Parse(collection["Dato"]));
+                Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexInt");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult DeleteInt(int id)
+        {
+            return View(id);
+        }
+
+        // POST: Country/Delete/5
+        [HttpPost]
+        public ActionResult DeleteInt(int id, FormCollection collection)
+        {
+            try
+            {
+                Datos.iArbolBinario.Eliminar(id);
+                Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexInt");
+            }
+            catch
+            {
+                return View(id);
+            }
+        }
+
+        public ActionResult EditInt(int? id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            return View(Datos.ListaInt.Find(x => x == id));
+        }
+
+        // POST: Country/Edit/5
+        [HttpPost]
+        public ActionResult EditInt(int id, FormCollection collection)
+        {
+            try
+            {
+                Datos.iArbolBinario.Eliminar(id);
+                int Dato = int.Parse(collection["Dato"]);
+                Datos.iArbolBinario.Insertar(Dato);
+
+                Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexInt");
+            }
+            catch (Exception)
+            {
+
+                return View(id);
+            }
+
+
+
+        }
+
+
+        //---------------------------------------String----------------------------------
         public ActionResult UploadString()
         {
             return View();
@@ -272,5 +413,87 @@ namespace Lab02_ED1.Controllers
             Datos.ListaString = Datos.sArbolBinario.Orders(Order);
             return RedirectToAction("IndexString");
         }
+
+        public ActionResult CreateString()
+        {
+
+
+            return View();
+        }
+
+        // POST: Country/Create
+        [HttpPost]
+        public ActionResult CreateString(FormCollection collection)
+        {
+            try
+            {
+                Datos.sArbolBinario.Insertar(collection["Dato"]);
+                Datos.ListaString = Datos.sArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexString");
+            }
+            catch
+            {
+                return View();
+            }
+        }
+
+        public ActionResult DeleteString(string id)
+        {
+            return View((object)id);
+        }
+
+        // POST: Country/Delete/5
+        [HttpPost]
+        public ActionResult DeleteString(string id, FormCollection collection)
+        {
+            try
+            {
+                Datos.sArbolBinario.Eliminar(id);
+                Datos.ListaString = Datos.sArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexString");
+            }
+            catch
+            {
+                return View((object)id);
+            }
+        }
+
+        public ActionResult EditString(string id)
+        {
+            if (id == null)
+            {
+                return HttpNotFound();
+            }
+            return View((object)Datos.ListaString.Find(x => x == id));
+        }
+
+        // POST: Country/Edit/5
+        [HttpPost]
+        public ActionResult EditString(string id, FormCollection collection)
+        {
+            try
+            {
+                Datos.sArbolBinario.Eliminar(id);
+                string Dato = collection["Dato"];
+                Datos.sArbolBinario.Insertar(Dato);
+
+                Datos.ListaInt = Datos.iArbolBinario.Orders("PreOrder");
+
+                return RedirectToAction("IndexString");
+            }
+            catch (Exception)
+            {
+
+                return View((object)id);
+            }
+
+
+
+        }
+
+
+
     }
 }

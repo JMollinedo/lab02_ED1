@@ -34,13 +34,11 @@
                     @Html.DisplayFor(modelItem => item)
                 </td>
                 <td>
-                    @Html.ActionLink("Edit", "EditString", new { id=item }) |
-                    @Html.ActionLink("Delete", "DeleteString", new {id=item})
+                    @Html.ActionLink("Edit", "EditString", new { id = item }) |
+                    @Html.ActionLink("Delete", "DeleteString", new { id = item })
                 </td>
             </tr>
         }
     }
 </table>
-
-
-
+@Html.Raw(TempData["msg"])
